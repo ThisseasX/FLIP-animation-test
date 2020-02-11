@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FLIP Animation Test</title>
+    <style>
+      body {
+        margin: 0;
+        overflow: hidden;
+      }
+
+      div {
+        position: absolute;
+        left: calc(50% - 50px);
+        top: calc(50% - 50px);
+      }
+    </style>
+  </head>
+  <body>
+    <div>
+      <svg viewBox="0 0 100 100" width="100" height="100" fill="red">
+        <circle cx="50" cy="50" r="50"></circle>
+      </svg>
+    </div>
+
+    <script>
+      const translate = (x, y) => `translate3d(${x}px, ${y}px, 0)`;
+
+      const div = document.getElementsByTagName('div')[0];
+
+      document.addEventListener('click', e => {
+        // F - First
+        const { x, y } = div.getBoundingClientRect();
+        const { clientX, clientY } = e;
+
+        // L - Last
+        div.style.left = `${clientX - 50}px`;
+        div.style.top = `${clientY - 50}px`;
+
+        // I - Invert
+        const dx = x - clientX + 50;
+        const dy = y - clientY + 50;
+
+        // P - Play
+        div.animate(
+          { transform: [translate(dx, dy), translate(0, 0)] },
+          { duration: 500, easing: 'ease-in-out' },
+        );
+      });
+    </script>
+  </body>
+</html>
